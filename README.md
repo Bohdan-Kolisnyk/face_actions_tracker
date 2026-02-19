@@ -1,46 +1,47 @@
 # Cyberpunk Focus & Fatigue Tracker Pro
 
-Цей проєкт — інтелектуальна система комп'ютерного зору, яка в реальному часі відстежує рівень уважності та втоми користувача за допомогою веб-камери. Написана на Python з використанням бібліотеки **MediaPipe Face Mesh**.
+This project is an intelligent computer vision system that tracks user attention and fatigue in real-time using a webcam. Written in Python using the **MediaPipe Face Mesh** library.
 
-Програма автоматично калібрується під обличчя користувача, трекає напрямок погляду, повороти голови, кліпання та миттєво реагує на мікросон або позіхання.
+The program automatically calibrates to the user's face, tracks gaze direction, head turns, blinks, and instantly reacts to microsleep or yawning.
 
-## Що вміє ця нейронка (Features)
+## Features
 
-* **Автоматичне калібрування:** Програма сама підлаштовується під ваше обличчя, освітлення та посадку за перші 50 кадрів.
-* **3D Трекінг уважності:** Відстежує рух зіниць (X/Y) та повороти голови. Якщо ви відвертаєтесь від екрана — лунає попереджувальний сигнал.
-* **Детектор мікросну (Microsleep Alarm):** Якщо очі залишаються закритими довше ніж 1.5 секунди, вмикається різка сирена будильника.
-* **Детектор позіхання:** Аналізує форму рота (MAR) для фіксації перших ознак втоми.
-* **Розумний лічильник кліпань:** Ігнорує звичайне примружування та мікро-шуми камери, фіксуючи лише повноцінні кліпання.
-* **Focus Score (Рейтинг уважності):** Наприкінці роботи видає детальну статистику з відсотком фокусу на екрані.
+* **Automatic Calibration:** The program automatically adjusts to your face, lighting, and posture during the first 50 frames.
+* **3D Focus Tracking:** Tracks pupil movement (X/Y) and head turns. If you look away from the screen, a warning signal sounds.
+* **Microsleep Alarm:** If eyes remain closed for more than 1.5 seconds, a sharp alarm siren goes off.
+* **Yawn Detector:** Analyzes mouth shape (MAR) to detect early signs of fatigue.
+* **Smart Blink Counter:** Ignores normal squinting and camera micro-noise, recording only full blinks.
+* **Focus Score:** At the end of the session, it provides detailed statistics with the percentage of focus on the screen.
 
-## Встановлення бібліотек
+## Installation
 
-Проєкт оптимізовано для **Python 3.12** на Windows. Щоб уникнути конфліктів версій (особливо з MediaPipe та NumPy), скопіюйте та виконайте в терміналі цей рядок:
+The project is optimized for **Python 3.12** on Windows. To avoid version conflicts (especially with MediaPipe and NumPy), copy and run this line in your terminal:
 
 ```bash
 pip install opencv-python mediapipe==0.10.14 numpy==1.26.4 protobuf==3.20.3
 ```
 
-## Інструкція користування
+## Usage Instructions
 
-1. Підключіть веб-камеру та запустіть скрипт:
+1. Connect your webcam and run the script:
    ```bash
    python blink_checker.py
    ```
-2. **Фаза калібрування:** Одразу після запуску на екрані з'явиться жовтий напис `CALIBRATING`. Сядьте рівно, дивіться прямо в камеру з нейтральним виразом обличчя та помовчіть кілька секунд.
-3. **Бойовий режим:** Після повідомлення про успішне калібрування працюйте за комп'ютером як зазвичай. 
-   * Відвернете голову або погляд — почуєте подвійний пік-пік.
-   * Закриєте очі на 2 секунди — почуєте різкий писк.
-4. **Як завершити:** Щоб коректно зупинити програму та отримати фінальний звіт зі статистикою в термінал, **покліпайте 5 разів** (або просто натисніть клавішу `Esc` на клавіатурі).
+2. **Calibration Phase:** Immediately after launch, a yellow `CALIBRATING` text will appear on the screen. Sit straight, look directly into the camera with a neutral facial expression, and remain quiet for a few seconds.
+3. **Active Mode:** After the successful calibration message, work at your computer as usual.
+   * Turn your head or look away — you will hear a double beep.
+   * Close your eyes for 2 seconds — you will hear a sharp squeak.
+4. **How to Exit:** To properly stop the program and get the final statistical report in the terminal, **blink 5 times** (or simply press the `Esc` key on your keyboard).
 
-## Приклад фінального звіту
+## Example Final Report
+
 ```text
 ==================================================
-КІБЕРПАНК ЗВІТ:
+CYBERPUNK REPORT:
 ==================================================
-Рейтинг уважності (Focus Score): 92.4%
-Виявлено ознаки втоми (позіхання).
-Кліпань: 5/5
-Сер. тривалість: 0.125с | Сер. проміжок: 8.430с
+Focus Score: 92.4%
+Signs of fatigue detected (yawning).
+Blinks: 5/5
+Avg. duration: 0.125s | Avg. interval: 8.430s
 ==================================================
 ```
