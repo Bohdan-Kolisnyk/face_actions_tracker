@@ -23,7 +23,6 @@ def get_ear(eye, lm, w, h):
     return (v1 + v2) / (2.0 * h1) if h1 != 0 else 0
 
 def get_mar(mouth, lm, w, h):
-    """Рахує Mouth Aspect Ratio для позіхання"""
     v = dist((lm[mouth[0]].x * w, lm[mouth[0]].y * h), (lm[mouth[1]].x * w, lm[mouth[1]].y * h))
     h_dist = dist((lm[mouth[2]].x * w, lm[mouth[2]].y * h), (lm[mouth[3]].x * w, lm[mouth[3]].y * h))
     return v / h_dist if h_dist != 0 else 0
@@ -61,7 +60,7 @@ REQUIRED_CALIB_FRAMES = 50
 calib_data = {"ear": [], "mar": [], "yaw": [], "pitch": [], "gaze_x": [], "gaze_y": []}
 base_metrics = {}
 
-print("СИСТЕМА ЗАПУЩЕНА!")
+print("SYSTEM STARTED!")
 cap = cv2.VideoCapture(0)
 
 while cap.isOpened() and blink_count < 5:
@@ -120,7 +119,7 @@ while cap.isOpened() and blink_count < 5:
                 base_metrics["gaze_x"] = sum(calib_data["gaze_x"]) / len(calib_data["gaze_x"])
                 base_metrics["gaze_y"] = sum(calib_data["gaze_y"]) / len(calib_data["gaze_y"])
                 tracking_start_time = time.time()
-                print("\nКалібрування завершено! Пороги встановлено автоматично.")
+                print("\nCalibration complete! Thresholds set automatically.")
 
         else:
             if avg_ear < base_metrics["ear"]:
@@ -178,22 +177,22 @@ cap.release()
 cv2.destroyAllWindows()
 
 print("\n" + "="*50)
-print("КІБЕРПАНК ЗВІТ:")
+print("CYBERPUNK REPORT:")
 print("="*50)
 
 if tracking_start_time:
     total_time = time.time() - tracking_start_time
     focus_score = max(0, 100 - (distracted_time / total_time * 100))
     
-    print(f"Рейтинг уважності (Focus Score): {focus_score:.1f}%")
+    print(f"Focus Score: {focus_score:.1f}%")
     if yawns_count > 10: 
-        print(f"Виявлено ознаки втоми (позіхання).")
+        print(f"Signs of fatigue detected (yawning).")
 
 if blink_count == 5:
     avg_dur = sum(blink_durations) / len(blink_durations)
     avg_int = sum(intervals) / len(intervals) if intervals else 0
-    print(f"Кліпань: 5/5")
-    print(f"Сер. тривалість: {avg_dur:.3f}с | Сер. проміжок: {avg_int:.3f}с")
+    print(f"Blinks: 5/5")
+    print(f"Avg. duration: {avg_dur:.3f}s | Avg. interval: {avg_int:.3f}s")
 else:
-    print(f"Перервано юзером. Кліпань: {blink_count}/5")
+    print(f"Interrupted by user. Blinks: {blink_count}/5")
 print("="*50)
